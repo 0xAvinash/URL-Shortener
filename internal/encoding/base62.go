@@ -5,7 +5,7 @@ var base62_str string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012
 func EncodeBase62(num int64) string {
 	var result []byte
 	for num > 0 {
-		result = append(result, base62_str[num % 62])
+		result = append(result, base62_str[num%62])
 		num = num / 62 // reduce the num
 	}
 

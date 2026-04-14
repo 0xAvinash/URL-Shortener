@@ -4,7 +4,7 @@
 // 	protoc        v7.34.1
 // source: url.proto
 
-package __
+package server
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -318,7 +318,7 @@ const file_url_proto_rawDesc = "" +
 	"URLService\x12,\n" +
 	"\aShorten\x12\x0f.ShortenRequest\x1a\x10.ShortenResponse\x12,\n" +
 	"\aResolve\x12\x0f.ResolveRequest\x1a\x10.ResolveResponse\x12/\n" +
-	"\fStreamClicks\x12\r.ClickRequest\x1a\x0e.ClickResponse(\x01B\x04Z\x02./b\x06proto3"
+	"\fStreamClicks\x12\r.ClickRequest\x1a\x0e.ClickResponse(\x01B\vZ\t../serverb\x06proto3"
 
 var (
 	file_url_proto_rawDescOnce sync.Once

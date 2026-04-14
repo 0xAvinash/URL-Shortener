@@ -4,7 +4,7 @@
 // - protoc             v7.34.1
 // source: url.proto
 
-package __
+package server
 
 import (
 	context "context"
