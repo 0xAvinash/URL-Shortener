@@ -15,20 +15,19 @@ import (
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+	"gorm.io/gorm"
 )
 
-
 func initKafka() *kafka.Producer {
-    producer, err := kafka.NewProducer(&kafka.ConfigMap{
-        "bootstrap.servers": "localhost:9092",
-    })
-    if err != nil {
-        log.Fatal("failed to create kafka producer:", err)
-    }
+	producer, err := kafka.NewProducer(&kafka.ConfigMap{
+		"bootstrap.servers": "localhost:9092",
+	})
+	if err != nil {
+		log.Fatal("failed to create kafka producer:", err)
+	}
 
-    return producer
+	return producer
 }
-
 
 func startgRPC() {
 	lis, err := net.Listen("tcp", ":50051")
@@ -96,7 +95,7 @@ func main() {
 		}
 
 		c.JSON(200, gin.H{
-			"short_url": "localhost:3000/" + resp.ShortCode,
+			"short_url": "http://localhost:3000/" + resp.ShortCode,
 		})
 	})
 
@@ -106,17 +105,20 @@ func main() {
 		var url models.URL
 		result := database.DB.Where("short_code = ?", shortcode).First(&url)
 
+		database.DB.Model(&models.URL{}).Where("short_code = ?", shortcode).
+			Update("click_count", gorm.Expr("click_count + ?", 1))
+
 		if result.Error != nil {
 			fmt.Println(err)
 		} else {
 			var clicks models.Clicks
-			
+
 			ip := c.ClientIP()
 			userAgent := c.Request.UserAgent()
 
-			clicks = models.Clicks {
-				ShortCode: url.ShortCode, 
-				IP: ip,
+			clicks = models.Clicks{
+				ShortCode: url.ShortCode,
+				IP:        ip,
 				UserAgent: userAgent,
 			}
 
@@ -130,8 +132,6 @@ func main() {
 			c.Redirect(http.StatusFound, url.LongURL)
 		}
 	})
-
-
 
 	fmt.Println("Server is running on localhost:3000")
 
