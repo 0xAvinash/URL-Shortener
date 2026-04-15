@@ -12,4 +12,4 @@ URL-Shortener project (Written in Golang)
 
 ```
 
-- You'll receive `ShotCode` to your URL
+- You'll receive `ShortCode` to your URL
