@@ -14,4 +14,4 @@ URL-Shortener project (Written in Golang)
 
 ```
 
-- You'll receive `ShortCode` to your URL
+- You'll receive a `shortcode url` to your original URL.
