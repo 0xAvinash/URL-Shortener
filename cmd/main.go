@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"net/http"
 	"time"
 	"url-shortener/internal/database"
+	"url-shortener/internal/models"
 	"url-shortener/internal/server"
 
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
@@ -94,9 +96,42 @@ func main() {
 		}
 
 		c.JSON(200, gin.H{
-			"short_url": resp.ShortCode,
+			"short_url": "localhost:3000/" + resp.ShortCode,
 		})
 	})
+
+	r.GET("/:shortcode", func(c *gin.Context) {
+		shortcode := c.Param("shortcode")
+
+		var url models.URL
+		result := database.DB.Where("short_code = ?", shortcode).First(&url)
+
+		if result.Error != nil {
+			fmt.Println(err)
+		} else {
+			var clicks models.Clicks
+			
+			ip := c.ClientIP()
+			userAgent := c.Request.UserAgent()
+
+			clicks = models.Clicks {
+				ShortCode: url.ShortCode, 
+				IP: ip,
+				UserAgent: userAgent,
+			}
+
+			forward := database.DB.Create(&clicks).Error
+			if forward != nil {
+				fmt.Println("Couldn't track the hit request")
+			} else {
+				fmt.Println("Successfully Created a Click Record in Database!")
+			}
+
+			c.Redirect(http.StatusFound, url.LongURL)
+		}
+	})
+
+
 
 	fmt.Println("Server is running on localhost:3000")
 
