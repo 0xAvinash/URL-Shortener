@@ -7,7 +7,9 @@ import (
 	"gorm.io/gorm"
 )
 
-func connectDB() *gorm.DB {
+var DB *gorm.DB
+
+func ConnectDB() *gorm.DB {
 
 	var db *gorm.DB
 	dsn := "host=localhost user=postgres password=postgres dbname=urlservice port=5432 sslmode=disable TimeZone=Asia/Kolkata"
@@ -20,6 +22,8 @@ func connectDB() *gorm.DB {
 
 	db.AutoMigrate(&models.URL{})
 	db.AutoMigrate(&models.Clicks{})
+
+	DB = db
 
 	return db
 }

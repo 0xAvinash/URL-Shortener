@@ -3,6 +3,7 @@ package server
 import (
 	context "context"
 	"encoding/json"
+	"log"
 	"time"
 
 	"url-shortener/internal/encoding"
@@ -19,6 +20,33 @@ type Server struct {
 	redis         *redis.Client
 	kafkaProducer *kafka.Producer
 	topic         string
+
+	UnimplementedURLServiceServer
+}
+
+func NewServer(
+	db *gorm.DB,
+	redisClient *redis.Client,
+	producer *kafka.Producer,
+	topic string,
+) *Server {
+
+	if db == nil {
+		panic("db is nil")
+	}
+	if redisClient == nil {
+		panic("redis is nil")
+	}
+	if producer == nil {
+		log.Println("Kafka disabled")
+	}
+
+	return &Server{
+		db:            db,
+		redis:         redisClient,
+		kafkaProducer: producer,
+		topic:         topic,
+	}
 }
 
 func generateSnowflake() int64 {
