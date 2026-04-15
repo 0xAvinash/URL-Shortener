@@ -15,3 +15,11 @@ URL-Shortener project (Written in Golang)
 ```
 
 - You'll receive a `shortcode url` to your original URL(in this case `"https://google.com"`).
+#### output
+```
+{
+    "short_url": "http://localhost:3000/KDJPxEsaBbC"
+}
+
+```
+- Open the above `http://localhost:3000/KDJPxEsaBbC` in a web browser of your choice to see the demo in action.
