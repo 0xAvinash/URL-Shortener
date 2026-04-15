@@ -2,6 +2,7 @@
 URL-Shortener project (Written in Golang)
 
 - Start the `Postgres` server and `Redis` for storing the data.
+- Create a `urlservice` database in the `Postgres` server
 - Run the commands as follows `docker-compose up -d` to start the Kafka(KRaft).
 - Run `go run cmd/main.go`.
 
