@@ -1,6 +1,17 @@
 version: "3.8"
 
 services:
+  app:
+    build: .
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      DB_HOST: postgres
+      REDIS_HOST: redis
+    ports:
+      - "3000:3000"  
+
   kafka:
     image: confluentinc/cp-kafka:7.6.0
     # container_name: kafka
@@ -20,17 +31,6 @@ services:
 
     volumes:
       - kafka_data:/bitnami/kafka
-
-  app:
-    build: .
-    depends_on:
-      - postgres
-      - redis
-    environment:
-      DB_HOST: postgres
-      REDIS_HOST: redis
-    ports:
-      - "3000:3000"  
 
   postgres:
     image: postgres:17
