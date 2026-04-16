@@ -10,7 +10,7 @@ var KafkaProducer *kafka.Producer
 
 func NewKafkaProducer() *kafka.Producer {
 	producer, err := kafka.NewProducer(&kafka.ConfigMap{
-		"bootstrap.servers": "localhost:9092",
+		"bootstrap.servers": "host.docker.internal:9092",
 		"acks":              "all", // durability
 		"retries":           3,
 		"linger.ms":         5,
