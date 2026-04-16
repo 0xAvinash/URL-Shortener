@@ -4,6 +4,7 @@ services:
   app:
     build: .
     depends_on:
+      - kafka
       - postgres
       - redis
     environment:
