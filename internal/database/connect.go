@@ -1,6 +1,8 @@
 package database
 
 import (
+	"fmt"
+	"os"
 	"url-shortener/internal/models"
 
 	"gorm.io/driver/postgres"
@@ -12,7 +14,14 @@ var DB *gorm.DB
 func ConnectDB() *gorm.DB {
 
 	var db *gorm.DB
-	dsn := "host=localhost user=postgres password=postgres dbname=urlservice port=5432 sslmode=disable TimeZone=Asia/Kolkata"
+
+	host := os.Getenv("DB_HOST") // "postgres"
+
+	dsn := fmt.Sprintf(
+		"host=%s user=postgres password=postgres dbname=urlservice port=5432 sslmode=disable",
+		host,
+	)
+
 	var err error
 
 	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
