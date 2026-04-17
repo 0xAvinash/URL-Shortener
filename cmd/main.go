@@ -105,7 +105,7 @@ func main() {
 		var url models.URL
 		// result := database.DB.Where("short_code = ?", shortcode).First(&url)
 
-		result := database.DB.Model(&models.URL{}).Where("short_code = ?", shortcode).
+		result := database.DB.Debug().Model(&models.URL{}).Where("short_code = ?", shortcode).
 			Update("click_count", gorm.Expr("click_count + ?", 1)).Scan(&url)
 
 		if result.Error != nil {

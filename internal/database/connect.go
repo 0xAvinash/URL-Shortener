@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"url-shortener/internal/models"
 
@@ -17,6 +18,10 @@ func ConnectDB() *gorm.DB {
 
 	host := os.Getenv("DB_HOST") // "postgres"
 
+	if host == "" {
+		host = "localhost"
+	}
+
 	dsn := fmt.Sprintf(
 		"host=%s user=postgres password=postgres dbname=urlservice port=5432 sslmode=disable",
 		host,
@@ -26,7 +31,7 @@ func ConnectDB() *gorm.DB {
 
 	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		panic("Failed to connect to database!")
+		log.Println("Failed to connect to database!")
 	}
 
 	db.AutoMigrate(&models.URL{})
