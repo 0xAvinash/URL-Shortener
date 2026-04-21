@@ -1,7 +1,7 @@
 # URL-Shortener
 URL-Shortener project (Written in Golang)
 
-- Run the commands as follows `docker-compose up -d` to start the Kafka(KRaft), Postgres, Redis and the app.
+- Run the command as follows `docker-compose up -d` to start the Kafka(KRaft), Postgres, Redis and the app.
 
 - Use the [Postman](https://www.postman.com/) and send a `POST` request to `localhost:3000/shorten` with the following data as an example (just for demo):
 ```
